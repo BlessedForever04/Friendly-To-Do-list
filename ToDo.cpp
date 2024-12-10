@@ -46,7 +46,7 @@ void modify(){
     cin>>target;
     cout<<"Enter new task: ";
     string newstring;
-    getline(cin, newstring); //This line here is just for capturing the new line buffer by cin>>
+    cin.ignore(10, '\n'); //added cin.ignore() to remove cin's new line buffer
     getline(cin, newstring); //this acts as primary getLine function for newstring
     vector <string> history;
     string line;
@@ -154,10 +154,10 @@ int main(){
         cout<<"6: Exit\n";
         cout<<": ";
         cin>>input;
+        cin.ignore(10,'\n');
 
         switch(input){
             case 1:
-            getline(cin, line);
             add();
             break;
 
