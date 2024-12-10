@@ -108,10 +108,36 @@ void print(){
     cout<<"-------------------------"<<endl;
     file.close();
 }
+
+void swapping(){
+    cout<<"Enter task to swap: ";
+    int t1, t2;
+    string line;
+    cin>>t1;
+    cout<<"Enter task to swap with: ";
+    cin>>t2;
+    getline(cin, line);
+
+    ifstream file("data.txt");
+    vector <string> history;
+    while(getline(file, line)){
+        history.push_back(line);
+    }
+    file.close();
+    swap(history[t1-1], history[t2-1]);
+    ofstream filew("data.txt");
+    for(int i = 0; i< history.size(); i++){
+        filew<<history[i]<<"\n";
+    }
+    filew.close();
+    system("cls");
+}
+
 int main(){
     ifstream file("data.txt", ios::in);
     if(!file){ //Cheacks if file is present in the local directory of our code
         ofstream NewFile("data.txt"); // If "data.txt" is not present then it creates one for storing data
+        NewFile.close();
     }
     int input = 0;
     string line;
@@ -123,8 +149,9 @@ int main(){
         cout<<"1: Add task\n";
         cout<<"2: Delete task\n";
         cout<<"3: Modify task\n";
-        cout<<"4: Clear all tasks\n";
-        cout<<"5: Exit\n";
+        cout<<"4: Swap tasks\n";
+        cout<<"5: Clear all tasks\n";
+        cout<<"6: Exit\n";
         cout<<": ";
         cin>>input;
 
@@ -143,14 +170,18 @@ int main(){
             break;
 
             case 4:
-            clearall();
+            swapping();
             break;
 
             case 5:
+            clearall();
+            break;
+
+            case 6:
             cout<<"1 - Yes / 0 - No"<<endl<<": ";
             cin>>input;
             if(input == 0){
-                input = 6;
+                input = 7;
             }
             else{
                 if(input == 1){
