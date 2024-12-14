@@ -29,7 +29,6 @@ void Delete(){
     }
     file.close();
     ofstream file2("data.txt"); //ofstream for writing (overwriting) task into file
-    cout<<history.size()<<endl;
     for(int i = 0; i < history.size() ; i++){
         if(i+1 != target){
             file2<<history[i]<<"\n";
