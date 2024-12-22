@@ -6,6 +6,7 @@
 //cstdlib for clearing terminal after each iteration
 using namespace std;
 
+//add() adds the task in local storage (data.txt) file;
 void add(){
     fstream file("data.txt", ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
     cout<<"Enter task: ";
@@ -13,22 +14,27 @@ void add(){
     getline(cin, task);
     file<<task<<"\n";
     file.close();
-    system("cls"); //clears the terminal for iteration or successful function call
+    system("cls"); //clears the terminal after each iteration or successful function call
 }
 
+//delete() function deletes any task within list with task number as input;
 void Delete(){
     ifstream file("data.txt"); //ifstream for only reading the file and not writing anything
     cout<<"Enter task number to delete: ";
-    int target;
+    int target; // Target is task's number (example: task number 3 or task number 8)
     cin>>target;
     vector <string> history;
     string line;
 
+
+    //First loop fills up vector
     while(getline(file, line)){
         history.push_back(line);
     }
     file.close();
     ofstream file2("data.txt"); //ofstream for writing (overwriting) task into file
+
+    //second loop refills the data.txt with required update and changes
     for(int i = 0; i < history.size() ; i++){
         if(i+1 != target){
             file2<<history[i]<<"\n";
@@ -38,15 +44,17 @@ void Delete(){
     system("cls");
 }
 
+//Modify() function modifies any task, we have to enter updated or completely new task as input;
+//acts similar to delete() function with smaller chnages;
 void modify(){
     ifstream file("data.txt");
     cout<<"Enter task number to modify: ";
     int target;
     cin>>target;
     cout<<"Enter new task: ";
-    string newstring;
+    string NewTask;
     cin.ignore(10, '\n'); //added cin.ignore() to remove cin's new line buffer
-    getline(cin, newstring); //this acts as primary getLine function for newstring
+    getline(cin, NewTask); //this acts as primary getLine function for NewTask
     vector <string> history;
     string line;
 
@@ -62,13 +70,14 @@ void modify(){
             file2<<history[i]<<"\n";
         }
         else{
-            file2<<newstring<<"\n";
+            file2<<NewTask<<"\n";
         }
     }
     file2.close();
     system("cls");
 }
 
+//Clearall() function clears the whole to-do list, just deletes all tasks.
 void clearall(){
     int confirm = 3;
     cout<<"1 - Yes / 0 - No"<<endl<<": ";
@@ -91,6 +100,7 @@ void clearall(){
     }
 }
 
+//print() function prints all the tasks in the list
 void print(){
     ifstream file("data.txt");
     int counter = 1; //simple counter to print task number
@@ -108,14 +118,15 @@ void print(){
     file.close();
 }
 
+//Swapping() functions swaps 2 tasks (their position), 2 inputs are required (their task number);
 void swapping(){
-    cout<<"Enter task to swap: ";
-    int t1, t2;
+    int t1, t2; //target 1 and target 2
     string line;
+    cout<<"Enter task to swap: ";
     cin>>t1;
     cout<<"Enter task to swap with: ";
     cin>>t2;
-    getline(cin, line);
+    cin.ignore(10,'\n');
 
     ifstream file("data.txt");
     vector <string> history;
@@ -124,11 +135,11 @@ void swapping(){
     }
     file.close();
     swap(history[t1-1], history[t2-1]);
-    ofstream filew("data.txt");
+    ofstream filee("data.txt");
     for(int i = 0; i< history.size(); i++){
-        filew<<history[i]<<"\n";
+        filee<<history[i]<<"\n";
     }
-    filew.close();
+    filee.close();
     system("cls");
 }
 
@@ -177,6 +188,7 @@ int main(){
             break;
 
             case 6:
+            //Confirmation, just in case someone press is accidently
             cout<<"1 - Yes / 0 - No"<<endl<<": ";
             cin>>input;
             if(input == 0){
@@ -199,3 +211,5 @@ int main(){
         }
     }
 }
+//Thanks for reading the code,
+//This code can be more optimized and object oriented using classes and their instances i.e class ToDo, class Task etc
