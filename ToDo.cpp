@@ -149,10 +149,10 @@ int main(){
         ofstream NewFile("data.txt"); // If "data.txt" is not present then it creates one for storing data
         NewFile.close();
     }
-    int input = 0;
+    int input;
     string line;
     
-    while(input!=5){
+    while(input != 11){
         cout<<"\nYour friendly To-Do list:\n\n";
         print();
         cout<<endl;
@@ -196,7 +196,7 @@ int main(){
             }
             else{
                 if(input == 1){
-                    input = 5;
+                    input = 11;
                     break;
                 }
                 else{
