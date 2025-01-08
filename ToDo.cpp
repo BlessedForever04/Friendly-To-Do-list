@@ -2,15 +2,16 @@
 #include <fstream>
 #include <vector>
 #include <cstdlib>
+#include <limits>
 //fstream for file handling
 //cstdlib for clearing terminal after each iteration
-using namespace std;
+// using namespace std;
 
 //add() adds the task in local storage (data.txt) file;
 void add(){
-    fstream file("data.txt", ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
+    std::fstream file("data.txt", std::ios::app); //ios::app and fstream for specifically appending the data inserted to file to avoid rewriting
     std::cout<<"Enter task: ";
-    string task;
+    std::string task;
     getline(std::cin, task);
     file<<task<<"\n";
     file.close();
@@ -23,12 +24,12 @@ void Delete(){
     std::cout<<"Enter task number to delete: ";
     int target; // Target is task's number (example: task number 3 or task number 8)
     std::cin>>target;
-    vector <string> history;
-    string line;
+    std::vector <std::string> history;
+    std::string line;
 
 
     //First loop fills up vector
-    while(getline(file, line)){
+    while(std::getline(file, line)){
         history.push_back(line);
     }
     file.close();
@@ -52,20 +53,23 @@ void modify(){
     int target;
     std::cin>>target;
     std::cout<<"Enter new task: ";
-    string newTask;
+    std::string newTask;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //added std::cin.ignore() to remove std::cin's new line buffer
-    getline(std::cin, newTask); //this acts as primary getLine function for newTask
-    vector <string> history;
-    string line;
+    std::getline(std::cin, newTask); //this acts as primary getLine function for newTask
+    std::vector <std::string> history;
+    std::string line;
 
     int i = 1;
     while(getline(file, line)){
         if (i == target) {
             history.push_back(newTask);
+            i++;
         } else {
             history.push_back(line);
+            i++;
         }
     }
+
 
     file.close();
     std::ofstream file2("data.txt");
@@ -80,7 +84,7 @@ void modify(){
 //Clearall() function clears the whole to-do list, just deletes all tasks.
 void clearall(){
     int confirm = 3;
-    std::cout<<"1 - Yes / 0 - No"<<endl<<": ";
+    std::cout<<"1 - Yes / 0 - No"<<std::endl<<": ";
     std::cin>>confirm;
     if(confirm == 0){
         system("cls");
@@ -104,24 +108,24 @@ void clearall(){
 void print(){
     std::ifstream file("data.txt");
     int counter = 1; //simple counter to print task number
-    string line;
-    std::cout<<"         Tasks"<<endl;
-    std::cout<<"-------------------------"<<endl;
+    std::string line;
+    std::cout<<"         Tasks"<<std::endl;
+    std::cout<<"-------------------------"<<std::endl;
     while(getline(file, line)){
-        std::cout<<counter<<". "<<line<<endl;
+        std::cout<<counter<<". "<<line<<std::endl;
         counter++;
     }
     if(counter == 1){
-        std::cout<<"    --- No tasks ---"<<endl;
+        std::cout<<"    --- No tasks ---"<<std::endl;
     }
-    std::cout<<"-------------------------"<<endl;
+    std::cout<<"-------------------------"<<std::endl;
     file.close();
 }
 
 //Swapping() functions swaps 2 tasks (their position), 2 inputs are required (their task number);
 void swapping(){
     int t1, t2; //target 1 and target 2
-    string line;
+    std::string line;
     std::cout<<"Enter task to swap: ";
     std::cin>>t1;
     std::cout<<"Enter task to swap with: ";
@@ -129,7 +133,7 @@ void swapping(){
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //added std::cin.ignore() to remove std::cin's new line buffer
 
     std::ifstream input("data.txt");
-    vector <string> history;
+    std::vector <std::string> history;
     while(getline(input, line)){
         history.push_back(line);
     }
@@ -144,18 +148,18 @@ void swapping(){
 }
 
 int main(){
-    std::ifstream file("data.txt", ios::in);
+    std::ifstream file("data.txt", std::ios::in);
     if(!file){ //Cheacks if file is present in the local directory of our code
         std::ofstream NewFile("data.txt"); // If "data.txt" is not present then it creates one for storing data
         NewFile.close();
     }
     int input;
-    string line;
+    std::string line;
 
-    while(input != 11){
+    while(true){
         std::cout<<"\nYour friendly To-Do list:\n\n";
         print();
-        std::cout<<endl;
+        std::cout<<std::endl;
         std::cout<<"1: Add task\n";
         std::cout<<"2: Delete task\n";
         std::cout<<"3: Modify task\n";
@@ -189,15 +193,14 @@ int main(){
 
             case 6:
             //Confirmation, just in case someone press is accidently
-            std::cout<<"1 - Yes / 0 - No"<<endl<<": ";
+            std::cout<<"1 - Yes / 0 - No"<<std::endl<<": ";
             std::cin>>input;
             if(input == 0){
                 input = 7;
             }
             else{
                 if(input == 1){
-                    input = 11;
-                    break;
+                    return 0;
                 }
                 else{
                     std::cout<<"Wrong input, cant perform task";
@@ -206,7 +209,7 @@ int main(){
 
             default:
             system("cls");
-            std::cout<<"Enter valid input"<<endl;
+            std::cout<<"Enter valid input"<<std::endl;
             break;
         }
     }
